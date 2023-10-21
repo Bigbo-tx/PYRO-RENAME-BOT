@@ -45,7 +45,6 @@ async def rename_start(client, message):
 async def refunc(client, message):
     reply_message = message.reply_to_message
     if (reply_message.reply_markup) and isinstance(reply_message.reply_markup, ForceReply):
-	global new_name
         new_name = message.text 
         await message.delete() 
         msg = await client.get_messages(message.chat.id, reply_message.id)
