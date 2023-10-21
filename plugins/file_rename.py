@@ -13,6 +13,7 @@ from asyncio import sleep
 from PIL import Image
 import os, time
 
+new_name = None
 
 @Client.on_message(filters.private & (filters.document | filters.audio | filters.video))
 async def rename_start(client, message):
@@ -44,6 +45,7 @@ async def rename_start(client, message):
 async def refunc(client, message):
     reply_message = message.reply_to_message
     if (reply_message.reply_markup) and isinstance(reply_message.reply_markup, ForceReply):
+	global new_name
         new_name = message.text 
         await message.delete() 
         msg = await client.get_messages(message.chat.id, reply_message.id)
@@ -71,7 +73,8 @@ async def refunc(client, message):
 
 
 @Client.on_callback_query(filters.regex("upload"))
-async def doc(bot, update,new_name):    
+async def doc(bot, update):   
+    global new_name
     print(new_name)
     new_name = new_name
     new_filename = new_name.split(":-")[1]
